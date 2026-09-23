@@ -10,6 +10,8 @@
 class UProjectileMovementComponent;
 class USphereComponent;
 class UNiagaraComponent;
+class UAudioComponent;
+class USoundBase;
 
 UCLASS(Abstract)
 class LOOMANCOURSEPROJECT_API ARogueProjectileMagic : public AActor
@@ -37,4 +39,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Components")
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	TSubclassOf<UDamageType> DmgTypeClass;
+
+	UPROPERTY(EditDefaultsOnly, Category="Components")
+	TObjectPtr<UAudioComponent> LoopedAudioComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category="Audio")
+	TObjectPtr<USoundBase> ExplosionSound;
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NiagaraSystem.h"
 #include "GameFramework/Character.h"
 #include "RogueCharacter.generated.h"
 
@@ -10,7 +11,9 @@ class ARogueProjectileMagic;
 class UAnimMontage;
 class UInputAction;
 class UCameraComponent;
+class UNiagaraSystem;
 class USpringArmComponent;
+class USoundBase;
 struct FInputActionValue;
 struct FInputActionInstance;
 
@@ -50,6 +53,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	TObjectPtr<UAnimMontage> AttackMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
+	TObjectPtr<UNiagaraSystem> CastingEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
+	TObjectPtr<USoundBase> CastingSound;
 
 public:	
 	// Called every frame

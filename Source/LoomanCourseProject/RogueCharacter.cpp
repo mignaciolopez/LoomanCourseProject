@@ -4,8 +4,10 @@
 #include "RogueCharacter.h"
 
 #include "EnhancedInputComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Projectiles/RogueProjectileMagic.h"
 
 // Sets default values
@@ -67,6 +69,12 @@ void ARogueCharacter::PrimaryAttack(const FInputActionInstance& InputActionInsta
 	FTimerHandle AttackTimerHandle;
 
 	const float AttackDelayTime = 0.2f;
+
+	UNiagaraFunctionLibrary::SpawnSystemAttached(CastingEffect, GetMesh(), MuzzleSocketName,
+		FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+
+	UGameplayStatics::PlaySound2D(this, CastingSound);
+
 	GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &ARogueCharacter::AttackTimerElapsed, AttackDelayTime);
 }
 
@@ -79,6 +87,7 @@ void ARogueCharacter::AttackTimerElapsed()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	auto Projectile = GetWorld()->SpawnActor<ARogueProjectileMagic>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
+	MoveIgnoreActorAdd(Projectile);
 }
 
 // Called to bind functionality to input
