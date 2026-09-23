@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NiagaraSystem.h"
 #include "GameFramework/Actor.h"
 #include "RogueProjectileMagic.generated.h"
 
@@ -19,7 +20,14 @@ public:
 	// Sets default values for this actor's properties
 	ARogueProjectileMagic();
 
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	virtual void PostInitializeComponents() override;
+
 protected:
+
+	UPROPERTY(EditDefaultsOnly, Category="Effects")
+	TObjectPtr<UNiagaraSystem> ExplosionEffect;
 
 	UPROPERTY(EditDefaultsOnly, Category="Components")
 	TObjectPtr<USphereComponent> SphereComponent;
