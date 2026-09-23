@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InputAction.h"
 #include "GameFramework/Character.h"
 #include "RogueCharacter.generated.h"
 
@@ -11,6 +10,7 @@ class UInputAction;
 class UCameraComponent;
 class USpringArmComponent;
 struct FInputActionValue;
+struct FInputActionInstance;
 
 UCLASS()
 class LOOMANCOURSEPROJECT_API ARogueCharacter : public ACharacter
@@ -42,6 +42,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void Move(const FInputActionValue& InValue);
+	void Look(const FInputActionInstance& InValue);
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
