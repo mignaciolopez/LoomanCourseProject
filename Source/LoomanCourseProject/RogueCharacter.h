@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "RogueCharacter.generated.h"
 
+class ARogueProjectileMagic;
 class UInputAction;
 class UCameraComponent;
 class USpringArmComponent;
@@ -37,6 +38,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_Look;
 
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UInputAction> Input_PrimaryAttack;
+
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
+	TSubclassOf<ARogueProjectileMagic> ProjectileClass;
+
+	UPROPERTY(VisibleAnywhere, Category="Attack")
+	FName MuzzleSocketName;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -44,6 +54,7 @@ public:
 	void Move(const FInputActionValue& InValue);
 	void Look(const FInputActionInstance& InValue);
 
+	void PrimaryAttack(const FInputActionInstance& InputActionInstance);
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
