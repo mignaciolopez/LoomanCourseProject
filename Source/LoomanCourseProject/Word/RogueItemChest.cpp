@@ -16,13 +16,6 @@ ARogueItemChest::ARogueItemChest()
 	LidMeshComponent->SetupAttachment(BaseMeshComponent);
 }
 
-void ARogueItemChest::BeginPlay()
-{
-	Super::BeginPlay();
-
-	SetActorTickEnabled(true);
-}
-
 void ARogueItemChest::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -34,5 +27,11 @@ void ARogueItemChest::Tick(float DeltaTime)
 	{
 		SetActorTickEnabled(false);
 	}
+}
+
+void ARogueItemChest::Interact()
+{
+	// Play Animation
+	SetActorTickEnabled(true);
 }
 

@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Core/RogueInteractionInterface.h"
 #include "RogueItemChest.generated.h"
 
 UCLASS()
-class LOOMANCOURSEPROJECT_API ARogueItemChest : public AActor
+class LOOMANCOURSEPROJECT_API ARogueItemChest : public AActor, public IRogueInteractionInterface
 {
 	GENERATED_BODY()
 
@@ -27,12 +28,12 @@ protected:
 
 	float CurrentAnimationPitch = 0.0f;
 
-	virtual void BeginPlay() override;
-
 public:
 	ARogueItemChest();
 
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void Interact() override;
 
 
 };
