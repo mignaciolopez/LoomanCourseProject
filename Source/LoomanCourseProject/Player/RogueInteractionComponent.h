@@ -12,10 +12,15 @@ class LOOMANCOURSEPROJECT_API URogueInteractionComponent : public UActorComponen
 {
 	GENERATED_BODY()
 
+protected:
+
+	UPROPERTY(EditDefaultsOnly, Category="Interaction")
+	float InteractionRadius = 400.0f;
+
 public:
 	// Sets default values for this component's properties
 	URogueInteractionComponent();
-	
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
