@@ -54,10 +54,13 @@ void ARogueBarrel::Explode()
 
 	RadialForceComponent->FireImpulse();
 
+	MeshComponent->AddImpulse(FVector::UpVector * 1000, NAME_None, true);
+	MeshComponent->AddAngularImpulseInDegrees(FVector::RightVector * 1000, NAME_None, true);
+
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ExplosionEffect, GetActorLocation());
 	UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, GetActorLocation(), FRotator::ZeroRotator);
 
-	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ARogueBarrel::DestroyAfterDelay, 0.12f, false);
+	GetWorldTimerManager().SetTimer(ExplodeTimerHandle, this, &ARogueBarrel::DestroyAfterDelay, 0.6f, false);
 }
 
 void ARogueBarrel::DestroyAfterDelay()

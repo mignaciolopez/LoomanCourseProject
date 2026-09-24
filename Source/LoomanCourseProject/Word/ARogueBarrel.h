@@ -49,6 +49,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	TSubclassOf<UDamageType> DmgTypeClass;
 
+	UFUNCTION(BlueprintCallable)
 	void Explode();
 	void DestroyAfterDelay();
 
