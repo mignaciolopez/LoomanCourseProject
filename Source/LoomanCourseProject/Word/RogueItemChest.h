@@ -11,11 +11,28 @@ class LOOMANCOURSEPROJECT_API ARogueItemChest : public AActor
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this actor's properties
-	ARogueItemChest();
+protected:
+
+	UPROPERTY(EditDefaultsOnly, Category = "Comopnents")
+	TObjectPtr<UStaticMeshComponent> BaseMeshComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Comopnents")
+	TObjectPtr<UStaticMeshComponent> LidMeshComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	float AnimationSpeed = 50.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	float AnimationTargetPitch = 120.0f;
+
+	float CurrentAnimationPitch = 0.0f;
+
+	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
+	ARogueItemChest();
+
 	virtual void Tick(float DeltaTime) override;
+
+
 };
