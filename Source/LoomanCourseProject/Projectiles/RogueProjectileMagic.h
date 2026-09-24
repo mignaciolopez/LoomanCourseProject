@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "RogueProjectileMagic.generated.h"
 
+class UNiagaraSystem;
 class UProjectileMovementComponent;
 class USphereComponent;
 class UNiagaraComponent;
@@ -46,6 +47,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Components")
 	TObjectPtr<UAudioComponent> LoopedAudioComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category="Audio")
+	UPROPERTY(EditDefaultsOnly, Category="Sound")
 	TObjectPtr<USoundBase> ExplosionSound;
 };

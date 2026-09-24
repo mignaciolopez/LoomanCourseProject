@@ -45,6 +45,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_PrimaryAttack;
 
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UInputAction> Input_Jump;
+
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	TSubclassOf<ARogueProjectileMagic> ProjectileClass;
 
