@@ -1,8 +1,9 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "RogueGameTypes.h"
 #include "RogueInteractionComponent.h"
+
+#include "RogueGameTypes.h"
 #include "Engine/OverlapResult.h"
 #include "Core/RogueInteractionInterface.h"
 

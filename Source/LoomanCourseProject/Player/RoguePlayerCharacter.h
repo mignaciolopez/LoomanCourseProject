@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "NiagaraSystem.h"
 #include "GameFramework/Character.h"
-#include "RogueCharacter.generated.h"
+#include "RoguePlayerCharacter.generated.h"
 
 class ARogueProjectileMagic;
 class UAnimMontage;
@@ -18,13 +18,13 @@ struct FInputActionValue;
 struct FInputActionInstance;
 
 UCLASS()
-class LOOMANCOURSEPROJECT_API ARogueCharacter : public ACharacter
+class LOOMANCOURSEPROJECT_API ARoguePlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	ARogueCharacter();
+	ARoguePlayerCharacter();
 
 protected:
 	// Called when the game starts or when spawned
