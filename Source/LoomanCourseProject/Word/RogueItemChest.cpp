@@ -27,7 +27,10 @@ void ARogueItemChest::Tick(float DeltaTime)
 
 	if (FMath::IsNearlyEqual(CurrentAnimationPitch, AnimationTargetPitch))
 	{
+		// Animation Completed
 		SetActorTickEnabled(false);
+
+		ChestAnimationComplete();
 	}
 }
 
