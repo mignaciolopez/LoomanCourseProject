@@ -1,8 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "RogueGameTypes.h"
 #include "RogueInteractionComponent.h"
-
 #include "Engine/OverlapResult.h"
 #include "Core/RogueInteractionInterface.h"
 
@@ -21,7 +21,7 @@ void URogueInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickT
 
 	APlayerController* PC = CastChecked<APlayerController>(GetOwner());
 	FVector Center = PC->GetPawn()->GetActorLocation();
-	ECollisionChannel CollisionChannel = ECC_Visibility;
+	ECollisionChannel CollisionChannel = COLLISION_INTERACTION;
 	FCollisionShape Shape;
 	Shape.SetSphere(InteractionRadius);
 
