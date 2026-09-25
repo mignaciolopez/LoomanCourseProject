@@ -67,6 +67,7 @@ void URogueInteractionComponent::Interact()
 		InteractInterface->Interact_Implementation();
 	}*/
 
-	IRogueInteractionInterface::Execute_Interact(SelectedActor);
+	if (SelectedActor)
+		IRogueInteractionInterface::Execute_Interact(SelectedActor);
 }
 

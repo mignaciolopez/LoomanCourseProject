@@ -8,7 +8,6 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Projectiles/RogueProjectileMagic.h"
 
 // Sets default values
 ARoguePlayerCharacter::ARoguePlayerCharacter()
@@ -31,6 +30,22 @@ void ARoguePlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+// Called to bind functionality to input
+void ARoguePlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	UEnhancedInputComponent* EnhancedInput = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+
+	EnhancedInput->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Move);
+	EnhancedInput->BindAction(Input_Look, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Look);
+	EnhancedInput->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Jump);
+
+	EnhancedInput->BindAction(Input_PrimaryAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartProjectileAttack, PrimaryAttackProjectileClass);
+	EnhancedInput->BindAction(Input_SecondaryAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartProjectileAttack, SecondaryAttackProjectileClass);
+	EnhancedInput->BindAction(Input_SpecialAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartProjectileAttack, SpecialAttackProjectileClass);
 }
 
 // Called every frame
@@ -62,23 +77,25 @@ void ARoguePlayerCharacter::Look(const FInputActionInstance& InValue)
 	AddControllerYawInput(InputValue.X);
 }
 
-void ARoguePlayerCharacter::PrimaryAttack(const FInputActionInstance& InputActionInstance)
+void ARoguePlayerCharacter::StartProjectileAttack(TSubclassOf<ARogueProjectile> ProjectileClass)
 {
 	PlayAnimMontage(AttackMontage);
-
-	FTimerHandle AttackTimerHandle;
-
-	const float AttackDelayTime = 0.2f;
 
 	UNiagaraFunctionLibrary::SpawnSystemAttached(CastingEffect, GetMesh(), MuzzleSocketName,
 		FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
 
 	UGameplayStatics::PlaySound2D(this, CastingSound);
 
-	GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &ARoguePlayerCharacter::AttackTimerElapsed, AttackDelayTime);
+	FTimerHandle AttackTimerHandle;
+	const float AttackDelayTime = 0.2f;
+
+	// Passing in the projectile as the parameter
+	FTimerDelegate Delegate;
+	Delegate.BindUObject(this, &ARoguePlayerCharacter::AttackTimerElapsed, ProjectileClass);
+	GetWorldTimerManager().SetTimer(AttackTimerHandle, Delegate, AttackDelayTime, false);
 }
 
-void ARoguePlayerCharacter::AttackTimerElapsed()
+void ARoguePlayerCharacter::AttackTimerElapsed(TSubclassOf<ARogueProjectile> ProjectileClass)
 {
 	FVector SpawnLocation = GetMesh()->GetSocketLocation(MuzzleSocketName);
 	FRotator SpawnRotation = GetControlRotation();
@@ -86,20 +103,7 @@ void ARoguePlayerCharacter::AttackTimerElapsed()
 	SpawnParams.Instigator = this;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	auto Projectile = GetWorld()->SpawnActor<ARogueProjectileMagic>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
-	MoveIgnoreActorAdd(Projectile);
-}
-
-// Called to bind functionality to input
-void ARoguePlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	UEnhancedInputComponent* EnhancedInput = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
-
-	EnhancedInput->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Move);
-	EnhancedInput->BindAction(Input_Look, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Look);
-	EnhancedInput->BindAction(Input_PrimaryAttack, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::PrimaryAttack);
-	EnhancedInput->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Jump);
+	AActor* NewProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
+	MoveIgnoreActorAdd(NewProjectile);
 }
 

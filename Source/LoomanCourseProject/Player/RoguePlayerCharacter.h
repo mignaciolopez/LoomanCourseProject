@@ -5,9 +5,9 @@
 #include "CoreMinimal.h"
 #include "NiagaraSystem.h"
 #include "GameFramework/Character.h"
+#include "Projectiles/RogueProjectile.h"
 #include "RoguePlayerCharacter.generated.h"
 
-class ARogueProjectileMagic;
 class UAnimMontage;
 class UInputAction;
 class UCameraComponent;
@@ -26,9 +26,10 @@ public:
 	// Sets default values for this character's properties
 	ARoguePlayerCharacter();
 
-protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+protected:
 
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<UCameraComponent> CameraComponent;
@@ -43,15 +44,31 @@ protected:
 	TObjectPtr<UInputAction> Input_Look;
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UInputAction> Input_Jump;
+
+	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_PrimaryAttack;
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
-	TObjectPtr<UInputAction> Input_Jump;
+	TObjectPtr<UInputAction> Input_SecondaryAttack;
+
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UInputAction> Input_SpecialAttack;
+
+	// Projectile Attack
+	UPROPERTY(EditDefaultsOnly, Category="Primary Attack")
+	TSubclassOf<ARogueProjectile> PrimaryAttackProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, Category="Secondary Attack")
+	TSubclassOf<ARogueProjectile> SecondaryAttackProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, Category="Special Attack")
+	TSubclassOf<ARogueProjectile> SpecialAttackProjectileClass;
 
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
-	TSubclassOf<ARogueProjectileMagic> ProjectileClass;
+	TSubclassOf<ARogueProjectile> Projectile;
 
-	UPROPERTY(VisibleAnywhere, Category="Attack")
+	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	FName MuzzleSocketName;
 
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
@@ -70,9 +87,8 @@ public:
 	void Move(const FInputActionValue& InValue);
 	void Look(const FInputActionInstance& InValue);
 
-	void PrimaryAttack(const FInputActionInstance& InputActionInstance);
-
-	void AttackTimerElapsed();
+	void StartProjectileAttack(TSubclassOf<ARogueProjectile> ProjectileClass);
+	void AttackTimerElapsed(TSubclassOf<ARogueProjectile> ProjectileClass);
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

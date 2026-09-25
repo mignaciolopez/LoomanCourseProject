@@ -3,19 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "NiagaraSystem.h"
+#include "RogueProjectile.h"
 #include "GameFramework/Actor.h"
 #include "RogueProjectileMagic.generated.h"
 
-class UNiagaraSystem;
-class UProjectileMovementComponent;
-class USphereComponent;
-class UNiagaraComponent;
-class UAudioComponent;
-class USoundBase;
-
 UCLASS(Abstract)
-class LOOMANCOURSEPROJECT_API ARogueProjectileMagic : public AActor
+class LOOMANCOURSEPROJECT_API ARogueProjectileMagic : public ARogueProjectile
 {
 	GENERATED_BODY()
 
@@ -25,28 +18,7 @@ public:
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 	virtual void PostInitializeComponents() override;
 
-protected:
-
-	UPROPERTY(EditDefaultsOnly, Category="Effects")
-	TObjectPtr<UNiagaraSystem> ExplosionEffect;
-
-	UPROPERTY(EditDefaultsOnly, Category="Components")
-	TObjectPtr<USphereComponent> SphereComponent;
-
-	UPROPERTY(EditDefaultsOnly, Category="Components")
-	TObjectPtr<UNiagaraComponent> LoopedNiagaraComponent;
-
-	UPROPERTY(EditDefaultsOnly, Category="Components")
-	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
-
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
-	TSubclassOf<UDamageType> DmgTypeClass;
-
-	UPROPERTY(EditDefaultsOnly, Category="Components")
-	TObjectPtr<UAudioComponent> LoopedAudioComponent;
-
-	UPROPERTY(EditDefaultsOnly, Category="Sound")
-	TObjectPtr<USoundBase> ExplosionSound;
 };
