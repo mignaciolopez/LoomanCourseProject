@@ -27,11 +27,7 @@ public:
 	// Sets default values for this character's properties
 	ARoguePlayerCharacter();
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void PostInitializeComponents() override;
 
 	void Move(const FInputActionValue& InValue);
 	void Look(const FInputActionInstance& InValue);
@@ -46,6 +42,9 @@ public:
 
 protected:
 
+	UFUNCTION()
+	void OnHealthChanged(float NewHealth, float OldHealth);
+
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<UCameraComponent> CameraComponent;
 
@@ -54,6 +53,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Comonents")
 	TObjectPtr<URogueActionSystemComponent> ActionSystemComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category="Death")
+	TObjectPtr<UAnimMontage> DeathMontage;
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_Move;
@@ -97,5 +99,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	TObjectPtr<USoundBase> CastingSound;
-
 };
