@@ -8,6 +8,7 @@
 #include "Projectiles/RogueProjectile.h"
 #include "RoguePlayerCharacter.generated.h"
 
+class URogueActionSystemComponent;
 class UAnimMontage;
 class UInputAction;
 class UCameraComponent;
@@ -29,6 +30,20 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	void Move(const FInputActionValue& InValue);
+	void Look(const FInputActionInstance& InValue);
+
+	void StartProjectileAttack(TSubclassOf<ARogueProjectile> ProjectileClass);
+	void AttackTimerElapsed(TSubclassOf<ARogueProjectile> ProjectileClass);
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
@@ -36,6 +51,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere, Category="Comonents")
+	TObjectPtr<URogueActionSystemComponent> ActionSystemComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_Move;
@@ -79,18 +97,5 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Attack")
 	TObjectPtr<USoundBase> CastingSound;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	void Move(const FInputActionValue& InValue);
-	void Look(const FInputActionInstance& InValue);
-
-	void StartProjectileAttack(TSubclassOf<ARogueProjectile> ProjectileClass);
-	void AttackTimerElapsed(TSubclassOf<ARogueProjectile> ProjectileClass);
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
