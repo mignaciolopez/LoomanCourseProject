@@ -22,16 +22,21 @@ public:
 
 	ARogueProjectile();
 
+	virtual void PostInitializeComponents() override;
+
 protected:
+
+	UFUNCTION()
+	virtual void OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		FVector NormalImpulse, const FHitResult& Hit);
+
+	void PlayEndEffects();
 
 	UPROPERTY(EditDefaultsOnly, Category="Components")
 	TObjectPtr<USphereComponent> SphereComp;
 
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	TObjectPtr<UProjectileMovementComponent> MovementComp;
-
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
-	TSubclassOf<UDamageType> DmgTypeClass;
 
 	UPROPERTY(EditDefaultsOnly, Category="Effects")
 	TObjectPtr<UNiagaraComponent> LoopEffectComp;

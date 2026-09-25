@@ -16,9 +16,10 @@ public:
 	// Sets default values for this actor's properties
 	ARogueProjectileMagic();
 
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+protected:
 
-	virtual void PostInitializeComponents() override;
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	TSubclassOf<UDamageType> DmgTypeClass;
 
+	virtual void OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
 };
