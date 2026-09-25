@@ -12,8 +12,8 @@ URogueActionSystemComponent::URogueActionSystemComponent()
 
 void URogueActionSystemComponent::ApplyHealthChange(const float DeltaValue)
 {
-	AttributeSet.Health += DeltaValue;
+	Attributes.Health += DeltaValue;
 
-	UE_LOG(LogTemp, Log, TEXT("Health: %2f"), AttributeSet.Health);
+	UE_LOG(LogTemp, Log, TEXT("Health: %2f"), Attributes.Health);
 }
 

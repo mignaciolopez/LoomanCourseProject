@@ -52,7 +52,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
 
-	UPROPERTY(VisibleAnywhere, Category="Comonents")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Comonents")
 	TObjectPtr<URogueActionSystemComponent> ActionSystemComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
