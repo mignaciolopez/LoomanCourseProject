@@ -19,6 +19,9 @@ struct FRogueAttributeSet
 };
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChanged, float, NewHealth, float, OldHealth);
+
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LOOMANCOURSEPROJECT_API URogueActionSystemComponent : public UActorComponent
 {
@@ -28,6 +31,9 @@ public:
 	URogueActionSystemComponent();
 
 	void ApplyHealthChange(float DeltaValue);
+
+	UPROPERTY(BlueprintAssignable, Category="Attributes")
+	FOnHealthChanged OnHealthChanged;
 
 protected:
 
