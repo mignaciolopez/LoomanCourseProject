@@ -5,11 +5,16 @@
 
 #include "EnhancedInputComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "RogueGameTypes.h"
 #include "ActionSystem/RogueActionSystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
+
+static TAutoConsoleVariable<float> CVarProjectileAimDebugDraw(TEXT("game.projectile.aim.DebugDraw"), 0.0f,
+	TEXT("Draws debug lines for Projectiles aiming. (0 = off, > 0 is duration)"), ECVF_Cheat);
+
 
 // Sets default values
 ARoguePlayerCharacter::ARoguePlayerCharacter()
@@ -116,13 +121,45 @@ void ARoguePlayerCharacter::StartProjectileAttack(TSubclassOf<ARogueProjectile> 
 
 void ARoguePlayerCharacter::AttackTimerElapsed(TSubclassOf<ARogueProjectile> ProjectileClass)
 {
+	UWorld* World = GetWorld();
 	FVector SpawnLocation = GetMesh()->GetSocketLocation(MuzzleSocketName);
-	FRotator SpawnRotation = GetControlRotation();
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Instigator = this;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	AActor* NewProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
+	FHitResult Hit;
+	FVector EyeLocation = CameraComponent->GetComponentLocation();
+	FRotator EyeRotation = GetControlRotation();
+	FVector TraceEnd = EyeLocation + EyeRotation.Vector() * 5000.0f;
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	if (World->LineTraceSingleByChannel(Hit, EyeLocation, TraceEnd, COLLISION_PROJECTILE, QueryParams))
+	{
+		TraceEnd = Hit.Location;
+	}
+
+	FRotator SpawnRotation = (TraceEnd - SpawnLocation).Rotation();
+
+	AActor* NewProjectile = World->SpawnActor<AActor>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
 	MoveIgnoreActorAdd(NewProjectile);
+
+#if !UE_BUILD_SHIPPING // Not necessary as Debug draw is not shipped.
+	const float DebugLifeTime = CVarProjectileAimDebugDraw.GetValueOnGameThread();
+	if (DebugLifeTime > 0.0f)
+	{
+		//The Hit Location or Trace End
+		DrawDebugBox(World, TraceEnd, FVector(20.0f), FColor::Green, false, DebugLifeTime);
+
+		// Adjusted Line Trace
+		DrawDebugLine(World, EyeLocation, TraceEnd, FColor::Green, false, DebugLifeTime);
+
+		//New Projectile Path
+		DrawDebugLine(World, SpawnLocation, TraceEnd, FColor::Yellow, false, DebugLifeTime);
+
+		//Original Path Projectile
+		DrawDebugLine(World, SpawnLocation, SpawnLocation + GetControlRotation().Vector() * 5000.0f,
+			FColor::Purple, false, DebugLifeTime);
+	}
+#endif
 }
 
