@@ -7,6 +7,8 @@
 #include "Engine/OverlapResult.h"
 #include "Core/RogueInteractionInterface.h"
 
+static TAutoConsoleVariable<bool> CVarInteractionDebugDrawing(TEXT("game.interaction.DebugDraw"), false,
+	TEXT("Draws debug lines for interaction component."), ECVF_Cheat);
 
 URogueInteractionComponent::URogueInteractionComponent()
 {
@@ -46,18 +48,24 @@ void URogueInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickT
 				SelectedActor = Overlap.GetActor();
 			}
 
-			DrawDebugBox(GetWorld(), OverlapLocation, FVector(50.0f), FColor::Red);
-			FString DebugString = FString::Printf(TEXT("DOT: %2f"), DotResult);
-			DrawDebugString(GetWorld(), OverlapLocation, DebugString, nullptr, FColor::White, 0.0f, true);
+			if (CVarInteractionDebugDrawing.GetValueOnGameThread())
+			{
+				DrawDebugBox(GetWorld(), OverlapLocation, FVector(50.0f), FColor::Red);
+				FString DebugString = FString::Printf(TEXT("DOT: %2f"), DotResult);
+				DrawDebugString(GetWorld(), OverlapLocation, DebugString, nullptr, FColor::White, 0.0f, true);
+			}
 		}
 	}
 
-	if (SelectedActor)
+	if (CVarInteractionDebugDrawing.GetValueOnGameThread())
 	{
-		DrawDebugBox(GetWorld(), SelectedActor->GetActorLocation(), FVector(60.0f), FColor::Green);
-	}
+		if (SelectedActor)
+		{
+			DrawDebugBox(GetWorld(), SelectedActor->GetActorLocation(), FVector(60.0f), FColor::Green);
+		}
 
-	DrawDebugSphere(GetWorld(), Center, InteractionRadius, 32, FColor::White);
+		DrawDebugSphere(GetWorld(), Center, InteractionRadius, 32, FColor::White);
+	}
 }
 
 void URogueInteractionComponent::Interact()
