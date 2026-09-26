@@ -23,45 +23,64 @@ void URogueInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickT
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	APlayerController* PC = CastChecked<APlayerController>(GetOwner());
+
 	FVector Center = PC->GetPawn()->GetActorLocation();
+	FVector CameraLocation = PC->PlayerCameraManager->GetCameraLocation();
+
 	ECollisionChannel CollisionChannel = COLLISION_INTERACTION;
+
 	FCollisionShape Shape;
 	Shape.SetSphere(InteractionRadius);
+
+	float InteractionRadiusSqrd = InteractionRadius * InteractionRadius;
 
 	TArray<FOverlapResult> Overlaps;
 	GetWorld()->OverlapMultiByChannel(Overlaps, Center, FQuat::Identity, CollisionChannel, Shape);
 
-	float HighestDot = -1.0f;
-	SelectedActor = nullptr;
+	AActor* BestActor = nullptr;
+	float HighestWeight = 0.0;
+
+	bool bEnabledDebugDraw = CVarInteractionDebugDrawing.GetValueOnGameThread();
 
 	for (FOverlapResult& Overlap : Overlaps)
 	{
-		if (Overlap.GetActor())
+		FVector Origin;
+		FVector BoxExtends;
+		Overlap.GetActor()->GetActorBounds(true, Origin, BoxExtends);
+
+		FVector OverlapDirection = (Origin - CameraLocation).GetSafeNormal();
+
+		float DistanceToSqrd = (Origin - Center).SizeSquared();
+		// Normalize and invert, smaller dist is higher weight
+		float NormalizedDistanceTo = 1.0f - (DistanceToSqrd / InteractionRadiusSqrd);
+
+		float DotResult = FVector::DotProduct(OverlapDirection, PC->GetControlRotation().Vector());
+		// Normalize 0.0f - 1.0f
+		float NormalizedDotResult = DotResult * 0.5f + 0.5f;
+
+		float Weight = (NormalizedDotResult * DirectionWeightScale) + (NormalizedDistanceTo * DistanceToWeightScale);
+		if (Weight > HighestWeight)
 		{
-			FVector OverlapLocation = Overlap.GetActor()->GetActorLocation();
-			FVector OverlapDirection = (OverlapLocation - Center).GetSafeNormal();
-
-			const float DotResult = FVector::DotProduct(OverlapDirection, PC->GetControlRotation().Vector());
-			if (DotResult > HighestDot)
-			{
-				HighestDot = DotResult;
-				SelectedActor = Overlap.GetActor();
-			}
-
-			if (CVarInteractionDebugDrawing.GetValueOnGameThread())
-			{
-				DrawDebugBox(GetWorld(), OverlapLocation, FVector(50.0f), FColor::Red);
-				FString DebugString = FString::Printf(TEXT("DOT: %2f"), DotResult);
-				DrawDebugString(GetWorld(), OverlapLocation, DebugString, nullptr, FColor::White, 0.0f, true);
-			}
+			BestActor = Overlap.GetActor();
+			HighestWeight = Weight;
 		}
+
+		if (bEnabledDebugDraw)
+		{
+			DrawDebugBox(GetWorld(), Origin, FVector(50.0f), FColor::Red);
+            FString DebugString = FString::Printf(TEXT("Weight: %f, Dot: %f, Dist: %f"), Weight, NormalizedDotResult, NormalizedDistanceTo);
+            DrawDebugString(GetWorld(), Origin, DebugString, nullptr, FColor::White, 0.0f, true);
+		}
+
 	}
 
-	if (CVarInteractionDebugDrawing.GetValueOnGameThread())
+	SelectedActor = BestActor;
+
+	if (bEnabledDebugDraw)
 	{
-		if (SelectedActor)
+		if (BestActor)
 		{
-			DrawDebugBox(GetWorld(), SelectedActor->GetActorLocation(), FVector(60.0f), FColor::Green);
+			DrawDebugBox(GetWorld(), BestActor->GetActorLocation(), FVector(60.0f), FColor::Green);
 		}
 
 		DrawDebugSphere(GetWorld(), Center, InteractionRadius, 32, FColor::White);
