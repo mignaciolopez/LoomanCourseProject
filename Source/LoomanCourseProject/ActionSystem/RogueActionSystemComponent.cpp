@@ -14,15 +14,18 @@ void URogueActionSystemComponent::ApplyHealthChange(const float DeltaValue)
 {
 	float OldHealth = Attributes.Health;
 
-	float MaxHealth = GetDefault<URogueActionSystemComponent>()->Attributes.Health;
-
-	Attributes.Health = FMath::Clamp(Attributes.Health + DeltaValue, 0.0f, MaxHealth);
+	Attributes.Health = FMath::Clamp(Attributes.Health + DeltaValue, 0.0f, Attributes.HealthMax);
 
 	if (!FMath::IsNearlyEqual(Attributes.Health, OldHealth))
 	{
 		OnHealthChanged.Broadcast(Attributes.Health, OldHealth);
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("MaxHealth: %2f, Health: %2f"), MaxHealth, Attributes.Health);
+	UE_LOG(LogTemp, Log, TEXT("New Health: %f, Max Health: %f"), Attributes.Health, Attributes.HealthMax);
+}
+
+bool URogueActionSystemComponent::IsFullHealth() const
+{
+	return FMath::IsNearlyEqual(Attributes.HealthMax, Attributes.Health);
 }
 
