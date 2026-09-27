@@ -21,7 +21,7 @@ void URogueActionSystemComponent::ApplyHealthChange(const float DeltaValue)
 		OnHealthChanged.Broadcast(Attributes.Health, OldHealth);
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("New Health: %f, Max Health: %f"), Attributes.Health, Attributes.HealthMax);
+	UE_LOG(LogTemp, Log, TEXT("New Health: %2f, Max Health: %2f"), Attributes.Health, Attributes.HealthMax);
 }
 
 bool URogueActionSystemComponent::IsFullHealth() const

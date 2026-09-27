@@ -68,7 +68,7 @@ void URogueInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickT
 		if (bEnabledDebugDraw)
 		{
 			DrawDebugBox(GetWorld(), Origin, FVector(50.0f), FColor::Red);
-            FString DebugString = FString::Printf(TEXT("Weight: %f, Dot: %f, Dist: %f"), Weight, NormalizedDotResult, NormalizedDistanceTo);
+            FString DebugString = FString::Printf(TEXT("Weight: %2f, Dot: %2f, Dist: %2f"), Weight, NormalizedDotResult, NormalizedDistanceTo);
             DrawDebugString(GetWorld(), Origin, DebugString, nullptr, FColor::White, 0.0f, true);
 		}
 
