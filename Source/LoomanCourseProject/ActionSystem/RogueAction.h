@@ -6,18 +6,22 @@
 #include "UObject/Object.h"
 #include "RogueAction.generated.h"
 
+class URogueActionSystemComponent;
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, Abstract)
 class LOOMANCOURSEPROJECT_API URogueAction : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
-	void StartAction();
+	virtual void StartAction();
 	FName GetActionName() const { return ActionName; }
+
+
+	URogueActionSystemComponent* GetOwningComponent() const;
 
 protected:
 

@@ -48,6 +48,8 @@ public:
 
 	float GetHealthMax() const;
 
+	void GrantAction(TSubclassOf<URogueAction> ActionClass);
+
 
 	UPROPERTY(BlueprintAssignable, Category="Attributes")
 	FOnHealthChanged OnHealthChanged;
@@ -59,5 +61,8 @@ protected:
 
 	UPROPERTY()
 	TArray<TObjectPtr<URogueAction>> Actions;
+
+	UPROPERTY(EditAnywhere, Category="Actions")
+	TArray<TSubclassOf<URogueAction>> DefaultActions;
 
 };
