@@ -38,6 +38,10 @@ public:
 
 	bool IsFullHealth() const;
 
+	float GetHealth() const;
+
+	float GetHealthMax() const;
+
 	UPROPERTY(BlueprintAssignable, Category="Attributes")
 	FOnHealthChanged OnHealthChanged;
 
