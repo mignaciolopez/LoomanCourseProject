@@ -15,9 +15,9 @@ URogueAction_ProjectileAttack::URogueAction_ProjectileAttack()
 	MuzzleSocketName = FName("Muzzle_01");
 }
 
-void URogueAction_ProjectileAttack::StartAction()
+void URogueAction_ProjectileAttack::StartAction_Implementation()
 {
-	Super::StartAction();
+	Super::StartAction_Implementation();
 
 	URogueActionSystemComponent* ActionComp = GetOwningComponent();
 	if (!ActionComp)

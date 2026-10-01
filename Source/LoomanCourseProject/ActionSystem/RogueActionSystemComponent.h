@@ -39,6 +39,7 @@ public:
 	virtual void InitializeComponent() override;
 
 	void StartAction(FName InActionName);
+	void StopAction(FName InActionName);
 
 	void ApplyHealthChange(float DeltaValue);
 
