@@ -14,6 +14,9 @@ class LOOMANCOURSEPROJECT_API URogueBTService_CheckRangeTo : public UBTService
 {
 	GENERATED_BODY()
 
+public:
+	URogueBTService_CheckRangeTo();
+
 protected:
 
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;

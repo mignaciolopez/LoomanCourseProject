@@ -7,6 +7,12 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
 #include "Projectiles/RogueProjectile.h"
+#include "RogueGameTypes.h"
+
+URogueBTTask_RangeAttack::URogueBTTask_RangeAttack()
+{
+	TargetActorKey.SelectedKeyName = NAME_TargetActor;
+}
 
 EBTNodeResult::Type URogueBTTask_RangeAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {

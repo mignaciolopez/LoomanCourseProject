@@ -16,6 +16,9 @@ class LOOMANCOURSEPROJECT_API URogueBTTask_RangeAttack : public UBTTaskNode
 {
 	GENERATED_BODY()
 
+public:
+	URogueBTTask_RangeAttack();
+
 protected:
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;

@@ -5,6 +5,12 @@
 
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "RogueGameTypes.h"
+
+URogueBTService_CheckRangeTo::URogueBTService_CheckRangeTo()
+{
+	TargetActorKey.SelectedKeyName = NAME_TargetActor;
+}
 
 void URogueBTService_CheckRangeTo::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
