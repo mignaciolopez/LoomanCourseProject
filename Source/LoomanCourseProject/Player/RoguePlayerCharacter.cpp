@@ -55,9 +55,9 @@ void ARoguePlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	EnhancedInput->BindAction(Input_Look, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Look);
 	EnhancedInput->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::Jump);
 
-	EnhancedInput->BindAction(Input_PrimaryAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartProjectileAttack, PrimaryAttackProjectileClass);
-	EnhancedInput->BindAction(Input_SecondaryAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartProjectileAttack, SecondaryAttackProjectileClass);
-	EnhancedInput->BindAction(Input_SpecialAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartProjectileAttack, SpecialAttackProjectileClass);
+	EnhancedInput->BindAction(Input_PrimaryAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartAction, FName("PrimaryAttack"));
+	EnhancedInput->BindAction(Input_SecondaryAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartAction, FName("SecondaryAttack"));
+	EnhancedInput->BindAction(Input_SpecialAttack,	ETriggerEvent::Triggered, this, &ARoguePlayerCharacter::StartAction, FName("SpecialAttack"));
 }
 
 void ARoguePlayerCharacter::PostInitializeComponents()
@@ -77,6 +77,11 @@ void ARoguePlayerCharacter::OnHealthChanged(float NewHealth, float OldHealth)
 
 		PlayAnimMontage(DeathMontage);
 	}
+}
+
+void ARoguePlayerCharacter::StartAction(FName InActionName)
+{
+	ActionSystemComponent->StartAction(InActionName);
 }
 
 void ARoguePlayerCharacter::Move(const FInputActionValue& InValue)

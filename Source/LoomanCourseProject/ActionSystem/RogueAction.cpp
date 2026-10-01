@@ -1,0 +1,13 @@
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "RogueAction.h"
+
+void URogueAction::StartAction()
+{
+	float GameTime = 0.0f;
+
+	UE_LOGFMT(LogTemp, Log, "Action started: {ActionName} - {WorldTime}",
+		("ActionName", ActionName),
+		("WorldTime", GameTime));
+}

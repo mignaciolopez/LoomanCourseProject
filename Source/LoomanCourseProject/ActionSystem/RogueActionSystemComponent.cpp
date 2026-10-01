@@ -3,11 +3,35 @@
 
 #include "RogueActionSystemComponent.h"
 
+#include "RogueAction.h"
+
 
 // Sets default values
 URogueActionSystemComponent::URogueActionSystemComponent()
 {
+	bWantsInitializeComponent = true;
+}
 
+void URogueActionSystemComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	URogueAction* NewAction = NewObject<URogueAction>(this, URogueAction::StaticClass());
+	Actions.Add(NewAction);
+}
+
+void URogueActionSystemComponent::StartAction(FName InActionName)
+{
+	for (URogueAction* Action : Actions)
+	{
+		if (Action->GetActionName() == InActionName)
+		{
+			Action->StartAction();
+			return;
+		}
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Action not found: %s"), *InActionName.ToString());
 }
 
 void URogueActionSystemComponent::ApplyHealthChange(const float DeltaValue)
@@ -38,4 +62,3 @@ float URogueActionSystemComponent::GetHealthMax() const
 {
 	return Attributes.HealthMax;
 }
-

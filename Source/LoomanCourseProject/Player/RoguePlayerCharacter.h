@@ -45,6 +45,8 @@ protected:
 	UFUNCTION()
 	void OnHealthChanged(float NewHealth, float OldHealth);
 
+	void StartAction(FName InActionName);
+
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<UCameraComponent> CameraComponent;
 
