@@ -23,14 +23,31 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category="Actions")
 	void StopAction();
 
+	bool CanStart() const;
+
+	bool IsRunning() const
+	{
+		return bIsRunning;
+	}
+
 	FName GetActionName() const { return ActionName; }
 
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	URogueActionSystemComponent* GetOwningComponent() const;
 
+	float GetCooldownTimeRemaining() const;
+
 protected:
 
-	UPROPERTY(EditDefaultsOnly, Category="Action")
+	UPROPERTY(EditDefaultsOnly, Category="Actions")
 	FName ActionName = FName("PrimaryAttack");
 
+	UPROPERTY(EditDefaultsOnly, Category="Actions")
+	float CooldownTime = 0.0f;
+
+	UPROPERTY(Transient)
+	float CooldownUntil = 0;
+
+	UPROPERTY(Transient)
+	bool bIsRunning = false;
 };

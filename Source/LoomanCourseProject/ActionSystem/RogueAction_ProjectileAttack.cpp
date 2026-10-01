@@ -13,6 +13,8 @@
 URogueAction_ProjectileAttack::URogueAction_ProjectileAttack()
 {
 	MuzzleSocketName = FName("Muzzle_01");
+
+	CooldownTime = 0.5f;
 }
 
 void URogueAction_ProjectileAttack::StartAction_Implementation()
@@ -80,6 +82,8 @@ void URogueAction_ProjectileAttack::AttackTimerElapsed()
 
 	AActor* NewProjectile = World->SpawnActor<AActor>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
 	Character->MoveIgnoreActorAdd(NewProjectile);
+
+	StopAction();
 
 #if !UE_BUILD_SHIPPING // Not necessary as Debug draw is not shipped.
 	const float DebugLifeTime = CVarProjectileAimDebugDraw.GetValueOnGameThread();
