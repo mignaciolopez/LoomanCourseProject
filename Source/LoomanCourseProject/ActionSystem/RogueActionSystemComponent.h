@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "RogueActionSystemComponent.generated.h"
 
+struct FRogueAttribute;
 class URogueAttributeSet;
 struct FGameplayTag;
 class URogueAction;
@@ -32,9 +33,7 @@ public:
 
 	bool IsFullHealth() const;
 
-	float GetHealth() const;
-
-	float GetHealthMax() const;
+	FRogueAttribute* GetAttribute(FGameplayTag InAttributeTag);
 
 	void GrantAction(TSubclassOf<URogueAction> ActionClass);
 
@@ -49,6 +48,8 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<URogueAttributeSet> Attributes;
+
+	TMap<FGameplayTag, FRogueAttribute*> CachedAttributes;
 
 	UPROPERTY(EditAnywhere, Category="Attributes", NoClear)
 	TSubclassOf<URogueAttributeSet> AttributeSetClass;
