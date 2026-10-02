@@ -13,7 +13,7 @@ struct FGameplayTag;
 class URogueAction;
 
 
-UENUM()
+UENUM(BlueprintType)
 enum EAttributeModifyType
 {
 	Invalid,
@@ -35,11 +35,13 @@ public:
 	URogueActionSystemComponent();
 
 	virtual void InitializeComponent() override;
+	virtual void BeginPlay() override;
 
 	void StartAction(FGameplayTag InActionName);
 	void StopAction(FGameplayTag InActionName);
 	void GrantAction(TSubclassOf<URogueAction> ActionClass);
 
+	UFUNCTION(BlueprintCallable)
 	void ApplyAttributeChange(FGameplayTag AttributeTag, float Delta, EAttributeModifyType ModifyType);
 
 	FRogueAttribute* GetAttribute(FGameplayTag InAttributeTag);

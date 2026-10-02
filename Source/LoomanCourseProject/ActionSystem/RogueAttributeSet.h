@@ -6,6 +6,7 @@
 #include "UObject/Object.h"
 #include "RogueAttributeSet.generated.h"
 
+class URogueActionSystemComponent;
 /**
  *
  */
@@ -36,6 +37,9 @@ class LOOMANCOURSEPROJECT_API URogueAttributeSet : public UObject
 
 public:
 	virtual void PostAttributeChanged() {}
+	URogueActionSystemComponent* GetOwningComponent() const;
+	virtual void InitializeAttributes() {}
+
 };
 
 /**
@@ -46,9 +50,9 @@ class URogueHealthAttributeSet : public URogueAttributeSet
 {
 	GENERATED_BODY()
 
-	URogueHealthAttributeSet();
-
 public:
+
+	URogueHealthAttributeSet();
 	virtual void PostAttributeChanged() override;
 
 protected:
@@ -57,5 +61,53 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Attributes")
 	FRogueAttribute HealthMax;
+
+};
+
+/**
+ *
+ */
+UCLASS()
+class URoguePawnAttributeSet : public URogueHealthAttributeSet
+{
+	GENERATED_BODY()
+
+public:
+
+	URoguePawnAttributeSet();
+	virtual void PostAttributeChanged() override;
+	virtual void InitializeAttributes() override;
+	void ApplyMoveSpeed();
+
+	UPROPERTY(EditAnywhere, Category = "Attributes")
+	FRogueAttribute MoveSpeed;
+
+};
+
+/**
+ *
+ */
+UCLASS()
+class URoguePlayerAttributeSet : public URoguePawnAttributeSet
+{
+	GENERATED_BODY()
+
+public:
+
+	URoguePlayerAttributeSet();
+
+};
+
+/**
+ *
+ */
+UCLASS()
+class URogueMonsterAttributeSet : public URoguePawnAttributeSet
+{
+	GENERATED_BODY()
+
+public:
+
+	URogueMonsterAttributeSet();
 
 };
