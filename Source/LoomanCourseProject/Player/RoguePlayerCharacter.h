@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "RoguePlayerCharacter.generated.h"
 
+struct FGameplayTag;
 struct FInputActionValue;
 struct FInputActionInstance;
 class UInputAction;
@@ -37,8 +38,8 @@ protected:
 	UFUNCTION()
 	void OnHealthChanged(float NewHealth, float OldHealth);
 
-	void StartAction(FName InActionName);
-	void StopAction(FName InActionName);
+	void StartAction(FGameplayTag InActionName);
+	void StopAction(FGameplayTag InActionName);
 
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<UCameraComponent> CameraComponent;

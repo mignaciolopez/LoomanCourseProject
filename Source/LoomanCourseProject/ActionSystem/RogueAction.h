@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/Object.h"
 #include "RogueAction.generated.h"
 
@@ -30,7 +31,7 @@ public:
 		return bIsRunning;
 	}
 
-	FName GetActionName() const { return ActionName; }
+	FGameplayTag GetActionName() const { return ActionName; }
 
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	URogueActionSystemComponent* GetOwningComponent() const;
@@ -40,7 +41,7 @@ public:
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Actions")
-	FName ActionName = FName("PrimaryAttack");
+	FGameplayTag ActionName;
 
 	UPROPERTY(EditDefaultsOnly, Category="Actions")
 	float CooldownTime = 0.0f;
