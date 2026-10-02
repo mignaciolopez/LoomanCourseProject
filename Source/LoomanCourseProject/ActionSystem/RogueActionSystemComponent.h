@@ -22,9 +22,11 @@ enum EAttributeModifyType
 	OverrideBase
 };
 
-
+// Native C++ delegate
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnAttributeChanged, FGameplayTag /*AttributeTag*/, float /*NewValue*/, float /*OldValue*/);
 
+// Blueprint delegate
+DECLARE_DYNAMIC_DELEGATE_ThreeParams(FOnAttributeDynamicChanged, FGameplayTag, AttributeTag, float, NewAttributeValue, float, OldAttributeValue);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class LOOMANCOURSEPROJECT_API URogueActionSystemComponent : public UActorComponent
@@ -44,7 +46,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ApplyAttributeChange(FGameplayTag AttributeTag, float Delta, EAttributeModifyType ModifyType);
 
-	FRogueAttribute* GetAttribute(FGameplayTag InAttributeTag);
+	FRogueAttribute* GetAttribute(FGameplayTag InAttributeTag) const;
+
+	UFUNCTION(BlueprintCallable)
+	float GetAttributeValue(FGameplayTag InAttributeTag) const;
+
+	UFUNCTION(BlueprintCallable, DisplayName="Add Attribute Listener", meta = (Keywords="events,delegate"))
+	void AddDynamicAttributeListener(FOnAttributeDynamicChanged Event, FGameplayTag AttributeTag);
 
 	FOnAttributeChanged& GetAttributeListener(FGameplayTag AttributeTag);
 
@@ -62,6 +70,8 @@ protected:
 	TSubclassOf<URogueAttributeSet> AttributeSetClass;
 
 	TMap<FGameplayTag, FOnAttributeChanged> AttributeListeners;
+
+	TMap<FGameplayTag, TArray<FOnAttributeDynamicChanged>> AttributeDynamicListeners;
 
 	UPROPERTY()
 	TArray<TObjectPtr<URogueAction>> Actions;
