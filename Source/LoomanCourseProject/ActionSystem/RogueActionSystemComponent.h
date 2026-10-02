@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/Actor.h"
 #include "RogueActionSystemComponent.generated.h"
 
@@ -55,6 +56,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="Attributes")
 	FOnHealthChanged OnHealthChanged;
+
+	UPROPERTY(EditDefaultsOnly, Category="Actions")
+	FGameplayTagContainer ActiveGameplayTags;
 
 protected:
 
