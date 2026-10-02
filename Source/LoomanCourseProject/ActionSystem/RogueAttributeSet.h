@@ -33,6 +33,9 @@ UCLASS()
 class LOOMANCOURSEPROJECT_API URogueAttributeSet : public UObject
 {
 	GENERATED_BODY()
+
+public:
+	virtual void PostAttributeChanged() {}
 };
 
 /**
@@ -45,6 +48,10 @@ class URogueHealthAttributeSet : public URogueAttributeSet
 
 	URogueHealthAttributeSet();
 
+public:
+	virtual void PostAttributeChanged() override;
+
+protected:
 	UPROPERTY(EditAnywhere, Category = "Attributes")
 	FRogueAttribute Health;
 
