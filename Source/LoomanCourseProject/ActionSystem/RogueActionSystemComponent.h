@@ -23,7 +23,7 @@ enum EAttributeModifyType
 };
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChanged, float, NewHealth, float, OldHealth);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnAttributeChanged, FGameplayTag /*AttributeTag*/, float /*NewValue*/, float /*OldValue*/);
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -44,10 +44,7 @@ public:
 
 	FRogueAttribute* GetAttribute(FGameplayTag InAttributeTag);
 
-
-
-	UPROPERTY(BlueprintAssignable, Category="Attributes")
-	FOnHealthChanged OnHealthChanged;
+	FOnAttributeChanged& GetAttributeListener(FGameplayTag AttributeTag);
 
 	UPROPERTY(EditDefaultsOnly, Category="Actions")
 	FGameplayTagContainer ActiveGameplayTags;
@@ -61,6 +58,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Attributes", NoClear)
 	TSubclassOf<URogueAttributeSet> AttributeSetClass;
+
+	TMap<FGameplayTag, FOnAttributeChanged> AttributeListeners;
 
 	UPROPERTY()
 	TArray<TObjectPtr<URogueAction>> Actions;

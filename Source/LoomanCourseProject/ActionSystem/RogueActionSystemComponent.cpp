@@ -107,6 +107,11 @@ void URogueActionSystemComponent::ApplyAttributeChange(FGameplayTag AttributeTag
 
 		Attributes->PostAttributeChanged();
 
+		if (FOnAttributeChanged* Event = AttributeListeners.Find(AttributeTag))
+		{
+			Event->Broadcast(AttributeTag, FoundAttribute->GetValue(), OldValue);
+		}
+
 		UE_LOGFMT(LogTemp, Log, "Attribute {0}, Old: {1}, New: {2}", *AttributeTag.ToString(), FoundAttribute->GetValue(), OldValue);
 	}
 }
@@ -116,4 +121,9 @@ FRogueAttribute* URogueActionSystemComponent::GetAttribute(FGameplayTag InAttrib
 	FRogueAttribute** FoundAttribute = CachedAttributes.Find(InAttributeTag);
 
 	return *FoundAttribute;
+}
+
+FOnAttributeChanged& URogueActionSystemComponent::GetAttributeListener(FGameplayTag AttributeTag)
+{
+	return AttributeListeners.FindOrAdd(AttributeTag);
 }
