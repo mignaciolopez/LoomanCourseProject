@@ -60,7 +60,7 @@ void URoguePawnAttributeSet::ApplyMoveSpeed()
 // Player
 URoguePlayerAttributeSet::URoguePlayerAttributeSet()
 {
-	Rage = FRogueAttribute(100.0f);
+	Rage = FRogueAttribute(30.0f);
 }
 
 
