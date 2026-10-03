@@ -4,6 +4,7 @@
 #include "RogueAction_ProjectileAttack.h"
 
 #include "NiagaraFunctionLibrary.h"
+#include "RogueActionSystemComponent.h"
 #include "RogueGameTypes.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"

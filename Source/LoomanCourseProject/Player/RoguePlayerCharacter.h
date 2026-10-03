@@ -40,6 +40,8 @@ protected:
 	void StartAction(FGameplayTag InActionName);
 	void StopAction(FGameplayTag InActionName);
 
+	bool bIsDeath = false;
+
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<UCameraComponent> CameraComponent;
 

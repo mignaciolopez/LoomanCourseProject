@@ -57,4 +57,7 @@ protected:
 
 	UPROPERTY(Transient)
 	bool bIsRunning = false;
+
+	UPROPERTY(EditDefaultsOnly, Category="Actions")
+	TMap<FGameplayTag, float> ActivationCost;
 };

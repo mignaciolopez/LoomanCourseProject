@@ -14,6 +14,7 @@ URogueActionSystemComponent* URogueAttributeSet::GetOwningComponent() const
 
 
 
+// Health
 URogueHealthAttributeSet::URogueHealthAttributeSet()
 {
 	Health = FRogueAttribute(100.0f);
@@ -27,6 +28,7 @@ void URogueHealthAttributeSet::PostAttributeChanged()
 
 
 
+// Pawn
 URoguePawnAttributeSet::URoguePawnAttributeSet()
 {
 	MoveSpeed = FRogueAttribute(550.0f);
@@ -53,10 +55,16 @@ void URoguePawnAttributeSet::ApplyMoveSpeed()
 }
 
 
+
+// Player
 URoguePlayerAttributeSet::URoguePlayerAttributeSet()
 {
+	Rage = FRogueAttribute(100.0f);
 }
 
+
+
+// Mobs
 URogueMonsterAttributeSet::URogueMonsterAttributeSet()
 {
 	MoveSpeed = FRogueAttribute(450.0f);

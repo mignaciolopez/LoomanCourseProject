@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "RogueAction.h"
-#include "RogueActionSystemComponent.h"
 #include "RogueAction_ProjectileAttack.generated.h"
 
 class ARogueProjectile;

@@ -96,6 +96,9 @@ public:
 
 	URoguePlayerAttributeSet();
 
+	UPROPERTY(EditAnywhere, Category = "Attributes")
+	FRogueAttribute Rage;
+
 };
 
 /**
