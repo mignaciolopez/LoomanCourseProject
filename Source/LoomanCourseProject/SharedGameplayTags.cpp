@@ -7,6 +7,9 @@ namespace SharedGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Attribute_HealthMax, "Attribute.HealthMax");
 	UE_DEFINE_GAMEPLAY_TAG(Attribute_Rage, "Attribute.Rage");
 
+	// Status
+	UE_DEFINE_GAMEPLAY_TAG(StatusEffect_Sprinting, "StatusEffect.Sprinting");
+
 	// Actions
 	UE_DEFINE_GAMEPLAY_TAG(Action_Sprint, "Action.Sprint");
 	UE_DEFINE_GAMEPLAY_TAG(Action_PrimaryAttack, "Action.PrimaryAttack");
