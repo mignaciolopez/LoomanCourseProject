@@ -30,7 +30,7 @@ struct FRogueAttribute
 /**
  * 
  */
-UCLASS()
+UCLASS(EditInlineNew)
 class LOOMANCOURSEPROJECT_API URogueAttributeSet : public UObject
 {
 	GENERATED_BODY()
@@ -56,10 +56,10 @@ public:
 	virtual void PostAttributeChanged() override;
 
 protected:
-	UPROPERTY(EditAnywhere, Category = "Attributes")
+	UPROPERTY(EditAnywhere, Category = "Health")
 	FRogueAttribute Health;
 
-	UPROPERTY(EditAnywhere, Category = "Attributes")
+	UPROPERTY(EditAnywhere, Category = "Health")
 	FRogueAttribute HealthMax;
 
 };
@@ -79,10 +79,10 @@ public:
 	virtual void InitializeAttributes() override;
 	void ApplyMoveSpeed();
 
-	UPROPERTY(EditAnywhere, Category = "Attributes")
+	UPROPERTY(EditAnywhere, Category=MoveSpeed)
 	FRogueAttribute MoveSpeed;
 
-	UPROPERTY(EditAnywhere, Category=Attributes)
+	UPROPERTY(EditAnywhere, Category=MoveSpeed)
 	FRogueAttribute MoveSpeedMultiplier;
 
 };
@@ -99,7 +99,7 @@ public:
 
 	URoguePlayerAttributeSet();
 
-	UPROPERTY(EditAnywhere, Category = "Attributes")
+	UPROPERTY(EditAnywhere, Category = "Resources")
 	FRogueAttribute Rage;
 
 };
