@@ -6,6 +6,7 @@
 #include "LoomanCourseProject.h"
 #include "EngineUtils.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "Core/RogueDeveloperSettings.h"
 #include "Player/RoguePlayerCharacter.h"
 
 void URogueCoinPickupSubsystem::AddCoinPickups(TArray<FVector> NewLocations, TArray<int32> NewAmounts)
@@ -30,14 +31,17 @@ void URogueCoinPickupSubsystem::OnWorldBeginPlay(UWorld& InWorld)
 
 	UWorld* World = GetWorld();
 
-	// Temporary Hack - we will fix with developer settings soon.
-	FSoftObjectPath MeshAssetPath(TEXT("/Game/ExampleContent/Meshes/SM_Pickup_Coin.SM_Pickup_Coin"));
-	UStaticMesh* LoadedMesh = Cast<UStaticMesh>(MeshAssetPath.TryLoad());
-
 	WorldISM = NewObject<UInstancedStaticMeshComponent>(World, NAME_None, RF_Transient);
 	WorldISM->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	WorldISM->SetStaticMesh(LoadedMesh);
 	WorldISM->RegisterComponentWithWorld(World);
+
+	GetDefault<URogueDeveloperSettings>()->CoinPickupMesh.LoadAsync(
+		FLoadSoftObjectPathAsyncDelegate::CreateUObject(this, &ThisClass::OnPickupMeshLoadComplete));
+}
+
+void URogueCoinPickupSubsystem::OnPickupMeshLoadComplete(const FSoftObjectPath& SoftObjectPath, UObject* LoadedObject) const
+{
+	WorldISM->SetStaticMesh(Cast<UStaticMesh>(LoadedObject));
 }
 
 void URogueCoinPickupSubsystem::RemoveCoinPickup(int32 IndexToRemove)
