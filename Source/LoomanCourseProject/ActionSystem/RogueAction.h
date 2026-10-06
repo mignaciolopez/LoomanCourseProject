@@ -33,6 +33,8 @@ public:
 
 	FGameplayTag GetActionName() const { return ActionName; }
 
+	virtual bool ImplementsGetWorld() const override { return true; }
+
 	UFUNCTION(BlueprintCallable, Category="Actions")
 	URogueActionSystemComponent* GetOwningComponent() const;
 
