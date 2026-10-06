@@ -41,6 +41,7 @@ protected:
 	void StopAction(FGameplayTag InActionName);
 
 	bool bIsDeath = false;
+	FTimerHandle OverlayTimerHandle;
 
 	UPROPERTY(VisibleAnywhere, Category="Comonents")
 	TObjectPtr<UCameraComponent> CameraComponent;
