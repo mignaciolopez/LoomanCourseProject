@@ -3,9 +3,10 @@
 
 #include "RogueActionSystemComponent.h"
 
-#include "RogueAction.h"
-#include "RogueAttributeSet.h"
 #include "LoomanCourseProject.h"
+#include "RogueAction.h"
+#include "RogueActionEffect.h"
+#include "RogueAttributeSet.h"
 
 
 // Sets default values
@@ -99,6 +100,20 @@ void URogueActionSystemComponent::GrantAction(TSubclassOf<URogueAction> ActionCl
 {
 	URogueAction* NewAction = NewObject<URogueAction>(this, ActionClass);
 	Actions.Add(NewAction);
+
+	if (NewAction->IsA(URogueActionEffect::StaticClass()))
+	{
+		// Sanity check that buffs are allowed to run. We do not handle this case yet
+		ensureMsgf(NewAction->CanStart(), TEXT("Effect can not start CanStart returns FALSE. Case not handled."));
+
+		NewAction->StartAction();
+	}
+}
+
+void URogueActionSystemComponent::RemoveAction(URogueAction* ActionToRemove)
+{
+	const int32 RemoveCount = Actions.RemoveSingle(ActionToRemove);
+	ensure(RemoveCount == 1);
 }
 
 void URogueActionSystemComponent::ApplyAttributeChange(FGameplayTag AttributeTag, float Delta, EAttributeModifyType ModifyType)

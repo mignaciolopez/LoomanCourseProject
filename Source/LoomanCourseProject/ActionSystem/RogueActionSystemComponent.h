@@ -42,7 +42,11 @@ public:
 
 	void StartAction(FGameplayTag InActionName);
 	void StopAction(FGameplayTag InActionName);
-	void GrantAction(TSubclassOf<URogueAction> ActionClass);
+
+	UFUNCTION(BlueprintCallable)
+	void GrantAction(TSubclassOf<URogueAction> NewActionClass);
+
+	void RemoveAction(URogueAction* ActionToRemove);
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyAttributeChange(FGameplayTag AttributeTag, float Delta, EAttributeModifyType ModifyType);
