@@ -11,6 +11,8 @@
 ARogueProjectileMagic::ARogueProjectileMagic()
 {
 	MovementComp->InitialSpeed = 2000.f;
+
+	InitialLifeSpan = 8.0f;
 }
 
 void ARogueProjectileMagic::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,

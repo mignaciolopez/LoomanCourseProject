@@ -5,7 +5,7 @@
 
 #include "RogueAction.h"
 #include "RogueAttributeSet.h"
-#include "SharedGameplayTags.h"
+#include "LoomanCourseProject.h"
 
 
 // Sets default values
@@ -22,7 +22,7 @@ void URogueActionSystemComponent::InitializeComponent()
 	if (Attributes == nullptr)
 	{
 		Attributes = NewObject<URogueAttributeSet>(this, URogueAttributeSet::StaticClass());
-		UE_LOG(LogTemp, Warning, TEXT("No default AttributeSet defined. Set using SetDefaultAttributeSet() "
+		UE_LOG(LogGame, Warning, TEXT("No default AttributeSet defined. Set using SetDefaultAttributeSet() "
 								"during Actor Construction or assign in Blueprint ActionComponent for %s."), *GetNameSafe(GetOwner()));
 	}
 
@@ -77,7 +77,7 @@ void URogueActionSystemComponent::StartAction(FGameplayTag InActionName)
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Action not found: %s"), *InActionName.ToString());
+	UE_LOG(LogGame, Warning, TEXT("Action not found: %s"), *InActionName.ToString());
 }
 
 void URogueActionSystemComponent::StopAction(FGameplayTag InActionName)
@@ -92,7 +92,7 @@ void URogueActionSystemComponent::StopAction(FGameplayTag InActionName)
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Action not found: %s"), *InActionName.ToString());
+	UE_LOG(LogGame, Warning, TEXT("Action not found: %s"), *InActionName.ToString());
 }
 
 void URogueActionSystemComponent::GrantAction(TSubclassOf<URogueAction> ActionClass)
@@ -145,12 +145,12 @@ void URogueActionSystemComponent::ApplyAttributeChange(FGameplayTag AttributeTag
 				if (!bIsBound)
 				{
 					Events->RemoveAt(i);
-					UE_LOGFMT(LogTemp, Log, "Removed attribute listener for {0}", *GetNameSafe(GetOwner()));
+					UE_LOGFMT(LogGame, Log, "Removed attribute listener for {0}", *GetNameSafe(GetOwner()));
 				}
 			}
 		}
 
-		UE_LOGFMT(LogTemp, Log, "Attribute {0}, Old: {1}, New: {2}", *AttributeTag.ToString(), FoundAttribute->GetValue(), OldValue);
+		UE_LOGFMT(LogGame, Log, "Attribute {0}, Old: {1}, New: {2}", *AttributeTag.ToString(), FoundAttribute->GetValue(), OldValue);
 	}
 }
 
@@ -185,7 +185,7 @@ void URogueActionSystemComponent::RemoveDynamicAttributeListener(FOnAttributeDyn
 	{
 		if (Listener.Value.RemoveSingle(Event) > 0)
 		{
-			UE_LOGFMT(LogTemp, Warning, "Removed attribute listener for {0}", *Listener.Key.ToString());
+			UE_LOGFMT(LogGame, Warning, "Removed attribute listener for {0}", *Listener.Key.ToString());
 			break;
 		}
 	}

@@ -26,6 +26,8 @@ ARogueProjectile::ARogueProjectile()
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
 	MovementComp->InitialSpeed = 2000.f;
 	MovementComp->ProjectileGravityScale = 0.0f;
+
+	InitialLifeSpan = 30.0f;
 }
 
 void ARogueProjectile::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,

@@ -16,7 +16,7 @@ class LOOMANCOURSEPROJECT_API ARogueAICharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ARogueAICharacter();
-
+	virtual void PostInitializeComponents() override;
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:

@@ -4,3 +4,5 @@
 #include "Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, LoomanCourseProject, "LoomanCourseProject" );
+
+DEFINE_LOG_CATEGORY(LogGame);

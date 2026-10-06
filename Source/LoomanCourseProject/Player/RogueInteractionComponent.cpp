@@ -95,6 +95,8 @@ void URogueInteractionComponent::Interact()
 	}*/
 
 	if (SelectedActor)
+	{
 		IRogueInteractionInterface::Execute_Interact(SelectedActor);
+	}
 }
 
