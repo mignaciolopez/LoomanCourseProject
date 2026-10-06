@@ -10,6 +10,7 @@ namespace SharedGameplayTags
 
 	// Status
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(StatusEffect_Sprinting);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(StatusEffect_Stunned);
 
 	// Actions
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Action_Sprint);
