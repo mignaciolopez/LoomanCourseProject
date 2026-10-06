@@ -16,7 +16,7 @@ class LOOMANCOURSEPROJECT_API URogueCoinPickupSubsystem : public UTickableWorldS
 
 public:
 
-	void AddCoinPickups(TArray<FVector> NewLocations, TArray<int32> NewAmounts);
+	void AddCoinPickups(TArray<FVector> NewLocations, const TArray<int32>& NewAmounts);
 
 	void RemoveCoinPickup(int32 IndexToRemove);
 
@@ -32,9 +32,9 @@ public:
 protected:
 
 	void OnPickupMeshLoadComplete(const FSoftObjectPath& SoftObjectPath, UObject* LoadedObject) const;
-	void OnPickupSoundLoadComplete(const FSoftObjectPath& SoftObjectPath, UObject* LoadedObject);
+	void OnPickupSoundLoadComplete(const FSoftObjectPath& SoftObjectPath, UObject* LoadedObject) const;
 
-	void PlayPickupSound();
+	void PlayPickupSound() const;
 
 	UPROPERTY()
 	TObjectPtr<UInstancedStaticMeshComponent> WorldISM;

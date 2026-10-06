@@ -16,5 +16,5 @@ class LOOMANCOURSEPROJECT_API URogueGameplayStatics : public UBlueprintFunctionL
 	GENERATED_BODY()
 
 public:
-	static bool IsFullHealth(URogueActionSystemComponent* ActionComp);
+	static bool IsFullHealth(const URogueActionSystemComponent* ActionComp);
 };

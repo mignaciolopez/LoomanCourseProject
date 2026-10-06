@@ -7,10 +7,10 @@
 #include "ActionSystem/RogueActionSystemComponent.h"
 #include "ActionSystem/RogueAttributeSet.h"
 
-bool URogueGameplayStatics::IsFullHealth(URogueActionSystemComponent* ActionComp)
+bool URogueGameplayStatics::IsFullHealth(const URogueActionSystemComponent* ActionComp)
 {
-	FRogueAttribute* Health = ActionComp->GetAttribute(SharedGameplayTags::Attribute_Health);
-	FRogueAttribute* HealthMax = ActionComp->GetAttribute(SharedGameplayTags::Attribute_HealthMax);
+	const FRogueAttribute* Health = ActionComp->GetAttribute(SharedGameplayTags::Attribute_Health);
+	const FRogueAttribute* HealthMax = ActionComp->GetAttribute(SharedGameplayTags::Attribute_HealthMax);
 
 	return FMath::IsNearlyEqual(Health->GetValue(), HealthMax->GetValue());
 }

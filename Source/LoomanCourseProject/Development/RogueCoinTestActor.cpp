@@ -15,8 +15,8 @@ void ARogueCoinTestActor::SpawnCoins(int32 SpawnCount)
 	TArray<FVector> CoinLocations;
 	TArray<int32> CoinAmounts;
 
-	UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetNavigationSystem(this);
-	FVector ActorLocation = GetActorLocation();
+	const UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetNavigationSystem(this);
+	const FVector ActorLocation = GetActorLocation();
 
 	for (int i = 0; i < SpawnCount; ++i)
 	{

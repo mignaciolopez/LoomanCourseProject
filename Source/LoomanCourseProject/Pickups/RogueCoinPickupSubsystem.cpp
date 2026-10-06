@@ -14,7 +14,7 @@
 
 TRACE_DECLARE_INT_COUNTER(CoinInstanceCount, TEXT("Coins in World"));
 
-void URogueCoinPickupSubsystem::AddCoinPickups(TArray<FVector> NewLocations, TArray<int32> NewAmounts)
+void URogueCoinPickupSubsystem::AddCoinPickups(TArray<FVector> NewLocations, const TArray<int32>& NewAmounts)
 {
 	TRACE_CPUPROFILER_EVENT_SCOPE(CoinPickupSubsystem::AddCoinPickups);
 
@@ -67,12 +67,12 @@ void URogueCoinPickupSubsystem::OnPickupMeshLoadComplete(const FSoftObjectPath& 
 	WorldISM->SetStaticMesh(Cast<UStaticMesh>(LoadedObject));
 }
 
-void URogueCoinPickupSubsystem::OnPickupSoundLoadComplete(const FSoftObjectPath& SoftObjectPath, UObject* LoadedObject)
+void URogueCoinPickupSubsystem::OnPickupSoundLoadComplete(const FSoftObjectPath& SoftObjectPath, UObject* LoadedObject) const
 {
 	WorldAudioComp->SetSound(Cast<USoundBase>(LoadedObject));
 }
 
-void URogueCoinPickupSubsystem::PlayPickupSound()
+void URogueCoinPickupSubsystem::PlayPickupSound() const
 {
 	if (!WorldAudioComp->IsPlaying())
 	{
@@ -82,20 +82,28 @@ void URogueCoinPickupSubsystem::PlayPickupSound()
 	WorldAudioComp->SetTriggerParameter(CoinPickupTriggerParamName);
 }
 
-void URogueCoinPickupSubsystem::RemoveCoinPickup(int32 IndexToRemove)
+void URogueCoinPickupSubsystem::RemoveCoinPickup(const int32 IndexToRemove)
 {
 	TRACE_CPUPROFILER_EVENT_SCOPE(CoinPickupSubsystem::RemoveCoinPickup);
 
-	CoinLocations.RemoveAt(IndexToRemove);
-	CoinAmounts.RemoveAt(IndexToRemove);
+	#if 1
+    	CoinLocations.RemoveAtSwap(IndexToRemove, EAllowShrinking::No);
+    	CoinAmounts.RemoveAtSwap(IndexToRemove, EAllowShrinking::No);
 
-	WorldISM->RemoveInstanceById(MeshIDs[IndexToRemove]);
-	MeshIDs.RemoveAt(IndexToRemove);
+    	WorldISM->RemoveInstanceById(MeshIDs[IndexToRemove]);
+    	MeshIDs.RemoveAtSwap(IndexToRemove, EAllowShrinking::No);
+    #else
+    	CoinLocations.RemoveAt(IndexToRemove);
+    	CoinAmounts.RemoveAt(IndexToRemove);
+
+    	WorldISM->RemoveInstanceById(MeshIDs[IndexToRemove]);
+    	MeshIDs.RemoveAt(IndexToRemove);
+    #endif
 
 	TRACE_COUNTER_SET(CoinInstanceCount, CoinLocations.Num());
 }
 
-void URogueCoinPickupSubsystem::Tick(float DeltaTime)
+void URogueCoinPickupSubsystem::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -104,7 +112,7 @@ void URogueCoinPickupSubsystem::Tick(float DeltaTime)
 	UWorld* World = GetWorld();
 
 	FVector PlayerLocation = FVector::ZeroVector;
-	for (ARoguePlayerCharacter* PlayerCharacter : TActorRange<ARoguePlayerCharacter>(World))
+	for (const ARoguePlayerCharacter* PlayerCharacter : TActorRange<ARoguePlayerCharacter>(World))
 	{
 		PlayerLocation = PlayerCharacter->GetActorLocation();
 	}
