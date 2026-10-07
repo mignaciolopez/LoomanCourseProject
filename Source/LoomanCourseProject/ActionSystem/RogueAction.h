@@ -33,6 +33,11 @@ public:
 
 	FGameplayTag GetActionName() const { return ActionName; }
 
+	const FGameplayTagContainer& GetBlockedTags() const
+	{
+		return BlockedTags;
+	}
+
 	virtual bool ImplementsGetWorld() const override { return true; }
 
 	UFUNCTION(BlueprintCallable, Category="Actions")

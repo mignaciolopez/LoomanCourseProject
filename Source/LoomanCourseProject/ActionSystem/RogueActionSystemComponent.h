@@ -27,6 +27,8 @@ DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnAttributeChanged, FGameplayTag /*Attri
 
 // Blueprint delegate
 DECLARE_DYNAMIC_DELEGATE_ThreeParams(FOnAttributeDynamicChanged, FGameplayTag, AttributeTag, float, NewAttributeValue, float, OldAttributeValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGameplayTagCountChanged, FGameplayTag, UpdatedTag, int32, NewCount);
+
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), HideCategories=(Navigation,Cooking,Tags))
 class LOOMANCOURSEPROJECT_API URogueActionSystemComponent : public UActorComponent
@@ -48,6 +50,10 @@ public:
 
 	void RemoveAction(URogueAction* ActionToRemove);
 
+	void AppendActiveTags(FGameplayTagContainer NewTags);
+
+	void RemoveActiveTags(FGameplayTagContainer TagsToRemove);
+
 	UFUNCTION(BlueprintCallable)
 	void ApplyAttributeChange(FGameplayTag AttributeTag, float Delta, EAttributeModifyType ModifyType);
 
@@ -64,10 +70,19 @@ public:
 
 	FOnAttributeChanged& GetAttributeListener(FGameplayTag AttributeTag);
 
-	UPROPERTY(EditDefaultsOnly, Category="Actions")
-	FGameplayTagContainer ActiveGameplayTags;
+	UPROPERTY(BlueprintAssignable)
+	FOnGameplayTagCountChanged GameplayTagUpdated;
+
+	const FGameplayTagContainer& GetActiveTags() const
+	{
+		return ActiveGameplayTags;
+	}
 
 protected:
+
+	FGameplayTagContainer ActiveGameplayTags;
+
+	void CheckAgainstBlockedTags(const FGameplayTagContainer& NewTags);
 
 	UPROPERTY(EditAnywhere, Instanced, NoClear, Category=ActionSystem)
 	TObjectPtr<URogueAttributeSet> Attributes;

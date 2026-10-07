@@ -8,20 +8,20 @@
 
 void URogueAction::StartAction_Implementation()
 {
-	bIsRunning = true;
+	GetOwningComponent()->AppendActiveTags(GrantedTags);
 
-	float GameTime = GetWorld()->GetTimeSeconds();
-
-	UE_LOGFMT(LogGame, Log, "Action started: {ActionName} - {WorldTime}",
-		("ActionName", ActionName.GetTagName()),
-		("WorldTime", GameTime));
-
-	GetOwningComponent()->ActiveGameplayTags.AppendTags(GrantedTags);
-
+	// Consume required resources
 	for (TPair<FGameplayTag, float> Cost : ActivationCost)
 	{
 		GetOwningComponent()->ApplyAttributeChange(Cost.Key, -Cost.Value, Modifier);
 	}
+
+	bIsRunning = true;
+
+	float GameTime = GetWorld()->TimeSeconds;
+	UE_LOGFMT(LogGame, Log, "Started Action {ActionName} - {WorldTime}",
+		("ActionName", ActionName.ToString()),
+		("WorldTime", GameTime));
 }
 
 void URogueAction::StopAction_Implementation()
@@ -36,7 +36,7 @@ void URogueAction::StopAction_Implementation()
 
 	CooldownUntil = GetWorld()->TimeSeconds + CooldownTime;
 
-	GetOwningComponent()->ActiveGameplayTags.RemoveTags(GrantedTags);
+	GetOwningComponent()->RemoveActiveTags(GrantedTags);
 }
 
 bool URogueAction::CanStart() const
@@ -53,7 +53,7 @@ bool URogueAction::CanStart() const
 	}
 
 	URogueActionSystemComponent* OwningComp = GetOwningComponent();
-	if (OwningComp->ActiveGameplayTags.HasAny(BlockedTags))
+	if (OwningComp->GetActiveTags().HasAny(BlockedTags))
 	{
 		return false;
 	}
