@@ -24,14 +24,12 @@ void URogueAnimInstance::OnTagUpdated(const FGameplayTag UpdatedTag, const int32
 {
 	const bool bWasAdded = NewCount > 0;
 
-	if (UpdatedTag == SharedGameplayTags::StatusEffect_Sprinting)
+	if (UpdatedTag.MatchesTag(SharedGameplayTags::StatusEffect_Sprinting))
 	{
 		bIsSprinting = bWasAdded;
 	}
-	else if (UpdatedTag == SharedGameplayTags::StatusEffect_Stunned)
+	else if (UpdatedTag.MatchesTag(SharedGameplayTags::StatusEffect_Stunned))
 	{
 		bIsStunned = bWasAdded;
-
-
 	}
 }
