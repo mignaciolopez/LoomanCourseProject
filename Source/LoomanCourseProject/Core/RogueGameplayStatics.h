@@ -17,4 +17,7 @@ class LOOMANCOURSEPROJECT_API URogueGameplayStatics : public UBlueprintFunctionL
 
 public:
 	static bool IsFullHealth(const URogueActionSystemComponent* ActionComp);
+
+	UFUNCTION(BlueprintCallable, Category="Actrion Health")
+	static bool IsAlive(AActor* ActorToCheck);
 };
