@@ -3,8 +3,10 @@
 
 #include "RogueProjectileMagic.h"
 
-#include "GameFramework/ProjectileMovementComponent.h"
+#include "ActionSystem/RogueActionSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "ActionSystem/RogueActionEffect.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 
 // Sets default values
@@ -22,5 +24,14 @@ void ARogueProjectileMagic::OnActorHit(UPrimitiveComponent* HitComponent, AActor
 
 	UGameplayStatics::ApplyPointDamage(OtherActor, 10.f, GetActorRotation().Vector(), Hit,
 		GetInstigatorController(), this, DmgTypeClass);
+
+	if (EffectOnHit)
+	{
+		URogueActionSystemComponent* ActionComp = OtherActor->FindComponentByClass<URogueActionSystemComponent>();
+		if (ActionComp) // Not everything will have one
+		{
+			ActionComp->GrantAction(EffectOnHit);
+		}
+	}
 }
 

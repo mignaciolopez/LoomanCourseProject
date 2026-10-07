@@ -96,12 +96,30 @@ void URogueActionSystemComponent::StopAction(FGameplayTag InActionName)
 	UE_LOG(LogGame, Warning, TEXT("Action not found: %s"), *InActionName.ToString());
 }
 
-void URogueActionSystemComponent::GrantAction(TSubclassOf<URogueAction> ActionClass)
+void URogueActionSystemComponent::GrantAction(TSubclassOf<URogueAction> NewActionClass)
 {
-	URogueAction* NewAction = NewObject<URogueAction>(this, ActionClass);
+	const bool bIsEffectClass = NewActionClass->IsChildOf(URogueActionEffect::StaticClass());
+	if (bIsEffectClass)
+	{
+		// Find existing debuff by class, you could have different 'stacking behavior' eg. allowing one debuff class PER instigator
+		// Note: Buffs and Actions may desire their own individual arrays when expanding on the Action System
+		for (URogueAction* Action : Actions)
+		{
+			if (URogueActionEffect* Effect = Cast<URogueActionEffect>(Action))
+			{
+				if (Effect->GetClass() == NewActionClass)
+				{
+					Effect->IncrementStackSize();
+					return;
+				}
+			}
+		}
+	}
+
+	URogueAction* NewAction = NewObject<URogueAction>(this, NewActionClass);
 	Actions.Add(NewAction);
 
-	if (NewAction->IsA(URogueActionEffect::StaticClass()))
+	if (bIsEffectClass)
 	{
 		// Sanity check that buffs are allowed to run. We do not handle this case yet
 		ensureMsgf(NewAction->CanStart(), TEXT("Effect can not start CanStart returns FALSE. Case not handled."));
