@@ -37,14 +37,6 @@ void URogueActionSystemComponent::InitializeComponent()
 
 		CachedAttributes.Add(AttributeTag, FoundAttribute);
 	}
-
-	for (TSubclassOf<URogueAction> ActionClass : DefaultActions)
-	{
-		if (ensure(ActionClass))
-		{
-			GrantAction(ActionClass);
-		}
-	}
 }
 
 void URogueActionSystemComponent::SetDefaultAttributeSet(TSubclassOf<URogueAttributeSet> AttributeSetClass)
