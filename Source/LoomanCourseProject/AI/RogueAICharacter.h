@@ -8,7 +8,7 @@
 
 class URogueActionSystemComponent;
 
-UCLASS()
+UCLASS(Abstract)
 class LOOMANCOURSEPROJECT_API ARogueAICharacter : public ACharacter
 {
 	GENERATED_BODY()
