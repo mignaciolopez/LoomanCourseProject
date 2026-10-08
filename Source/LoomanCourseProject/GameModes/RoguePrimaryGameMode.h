@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RogueGameTypes.h"
 #include "Core/RogueGameMode.h"
 #include "RoguePrimaryGameMode.generated.h"
 
@@ -24,11 +25,11 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category="Spawn System")
-	TObjectPtr<UEnvQuery> SpawnLocationQuery;
 
-	UPROPERTY(EditDefaultsOnly, Category="Spawn System")
-	TObjectPtr<UDataTable> MonsterSpawnTable;
+	UPROPERTY(EditDefaultsOnly, Category= "Spawn System")
+	TArray<FRogueDirectorData> Directors;
+
+	bool TrySpawnMonster(FRogueDirectorData& Director);
 
 	void SpawnQueryCompleted(TSharedPtr<FEnvQueryResult> QueryResult, FMonsterSpawnData* SelectedMonster);
 
