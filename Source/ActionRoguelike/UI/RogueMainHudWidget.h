@@ -1,0 +1,23 @@
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "RogueMainHudWidget.generated.h"
+
+class UCanvasPanel;
+/**
+ * 
+ */
+UCLASS()
+class ACTIONROGUELIKE_API URogueMainHudWidget : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+
+	// Primary Canvas to add all projected widgets such as enemy health bars and damage numbers
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UCanvasPanel> MainCanvasPanel;
+};

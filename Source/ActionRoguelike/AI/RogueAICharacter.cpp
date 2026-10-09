@@ -188,5 +188,5 @@ void ARogueAICharacter::CreateHealthBar()
 
 	HealthWidgetInstance = CreateWidget<URogueWorldUserWidget>(GetWorld(), MonsterData->HealthWidgetClass);
 	HealthWidgetInstance->OwningComponent = GetRootComponent();
-	HealthWidgetInstance->AddToViewport(0);
+	HealthWidgetInstance->AddToRootCanvas();
 }
