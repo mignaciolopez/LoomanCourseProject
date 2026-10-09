@@ -20,9 +20,15 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	TObjectPtr<URogueActionSystemComponent> ActionSystemComponent;
-	
+
+	bool bIsDead = false;
+
 	UFUNCTION()
 	void OnGameplayTagUpdated(FGameplayTag UpdatedTag, int32 NewCount);
+
+	void OnHealthChanged(FGameplayTag AttributeTag, float NewHealth, float OldHealth);
+
+	void HandleKilled();
 	
 	UPROPERTY(EditDefaultsOnly, Category=Animation)
 	TObjectPtr<UAnimMontage> StunnedAnimation;
