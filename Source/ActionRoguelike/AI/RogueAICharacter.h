@@ -25,22 +25,22 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category=Animation)
 	TObjectPtr<UAnimMontage> StunnedAnimation;
-
+	
 	UPROPERTY(Transient)
 	TObjectPtr<URogueMonsterData> MonsterData;
 
 public:
-
+	
 	URogueActionSystemComponent* GetActionSystemComponent() const
 	{
 		return ActionSystemComponent;
 	}
-
+	
 	URogueMonsterData* GetMonsterData() const
 	{
 		return MonsterData;
 	}
-
+	
 	void SetMonsterData(URogueMonsterData* NewMonsterData)
 	{
 		check(MonsterData == nullptr);

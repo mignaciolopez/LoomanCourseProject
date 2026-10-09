@@ -16,7 +16,7 @@ ARogueAICharacter::ARogueAICharacter()
 {
 	ActionSystemComponent = CreateDefaultSubobject<URogueActionSystemComponent>(TEXT("ActionSystemComp"));
 	ActionSystemComponent->SetDefaultAttributeSet(URogueMonsterAttributeSet::StaticClass());
-
+	
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 

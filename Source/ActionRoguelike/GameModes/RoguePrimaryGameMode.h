@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "RogueGameTypes.h"
-#include "Core/RogueGameMode.h"
+#include "GameModes/RogueGameMode.h"
 #include "RoguePrimaryGameMode.generated.h"
 
 struct FMonsterSpawnData;
@@ -19,9 +19,9 @@ class ACTIONROGUELIKE_API ARoguePrimaryGameMode : public ARogueGameMode
 	
 protected:
 	
-	UPROPERTY(EditDefaultsOnly, Category= "Spawn System")
+	UPROPERTY(EditDefaultsOnly, Category= "Spawn System", meta = (TitleProperty="DebugDisplayName"))
 	TArray<FRogueDirectorData> Directors;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category= "Spawn System")
 	int32 GlobalStartingSeed = 0;
 	
@@ -31,8 +31,8 @@ protected:
 	
 	bool TrySpawnMonster(FRogueDirectorData& Director);
 	
-public:
-
+public: 
+	
 	virtual void StartPlay() override;
 	
 	virtual void Tick(float DeltaSeconds) override;
