@@ -14,13 +14,13 @@ class ACTIONROGUELIKE_API ARogueAIController : public AAIController
 	GENERATED_BODY()
 
 public:
+	
+	virtual void PreRegisterAllComponents() override;
 
 	ARogueAIController();
 
-	virtual void PreRegisterAllComponents() override;
-
 protected:
-
+	
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<UAIPerceptionComponent> PerceptionComp;
 

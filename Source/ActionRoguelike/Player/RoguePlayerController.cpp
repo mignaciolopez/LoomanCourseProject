@@ -12,17 +12,17 @@ ARoguePlayerController::ARoguePlayerController()
 	InteractionComponent = CreateDefaultSubobject<URogueInteractionComponent>(TEXT("InteractionComp"));
 }
 
-FGenericTeamId ARoguePlayerController::GetGenericTeamId() const
-{
-	return FGenericTeamId(TEAM_ID_PLAYERS);
-}
-
 void ARoguePlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
 	UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(InputComponent);
 	EnhancedInput->BindAction(Input_Interact, ETriggerEvent::Triggered, this, &ARoguePlayerController::StartInteract);
+}
+
+FGenericTeamId ARoguePlayerController::GetGenericTeamId() const
+{
+	return FGenericTeamId(TEAM_ID_PLAYERS);
 }
 
 void ARoguePlayerController::StartInteract()

@@ -30,8 +30,8 @@ protected:
 	virtual void SetupInputComponent() override;
 
 public:
+	
+	virtual FGenericTeamId GetGenericTeamId() const override;
 
 	ARoguePlayerController();
-
-	virtual FGenericTeamId GetGenericTeamId() const override;
 };

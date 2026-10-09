@@ -17,7 +17,7 @@ ARogueAIController::ARogueAIController()
 void ARogueAIController::PreRegisterAllComponents()
 {
 	Super::PreRegisterAllComponents();
-
+	
 	// Needs to be super early before pawn is registered or perception system has the wrong teamID
 	SetGenericTeamId(FGenericTeamId(TEAM_ID_BOTS));
 }

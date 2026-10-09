@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GenericTeamAgentInterface.h"
-#include "RogueGameTypes.h"
 #include "GameFramework/Character.h"
 #include "RoguePlayerCharacter.generated.h"
 
@@ -23,9 +22,9 @@ class ACTIONROGUELIKE_API ARoguePlayerCharacter : public ACharacter, public IGen
 	GENERATED_BODY()
 
 public:
-
+	
 	virtual FGenericTeamId GetGenericTeamId() const override;
-
+	
 	// Sets default values for this character's properties
 	ARoguePlayerCharacter();
 
@@ -75,7 +74,12 @@ protected:
 	void OnHealthChanged(FGameplayTag AttributeTag, float NewHealth, float OldHealth);
 
 public:
-
+	
+	URogueActionSystemComponent* GetActionSystemComponent() const
+	{
+		return ActionSystemComponent;
+	}
+	
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	virtual void PostInitializeComponents() override;
@@ -86,6 +90,4 @@ public:
 protected:
 	
 	FTimerHandle OverlayTimerHandle;
-
-	const FGenericTeamId TeamId = FGenericTeamId(TEAM_ID_PLAYERS);
 };

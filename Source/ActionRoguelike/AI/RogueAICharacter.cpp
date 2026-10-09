@@ -4,6 +4,8 @@
 #include "RogueAICharacter.h"
 
 #include "AIController.h"
+#include "EngineUtils.h"
+#include "RogueGameTypes.h"
 #include "SharedGameplayTags.h"
 #include "ActionSystem/RogueActionSystemComponent.h"
 #include "ActionSystem/RogueAttributeSet.h"
@@ -12,6 +14,7 @@
 #include "Core/RogueGameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Perception/AISense_Damage.h"
+#include "World/RoguePatrolPoint.h"
 
 
 ARogueAICharacter::ARogueAICharacter()
@@ -29,7 +32,7 @@ void ARogueAICharacter::PostInitializeComponents()
 	GetMesh()->SetOverlayMaterialMaxDrawDistance(1);
 	
 	ActionSystemComponent->GameplayTagUpdated.AddDynamic(this, &ThisClass::OnGameplayTagUpdated);
-	ActionSystemComponent->GetAttributeListener(SharedGameplayTags::Attribute_Health).AddUObject(this, &ARogueAICharacter::OnHealthChanged);
+	ActionSystemComponent->GetAttributeListener(SharedGameplayTags::Attribute_Health).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 
 void ARogueAICharacter::BeginPlay()
@@ -92,51 +95,55 @@ FGenericTeamId ARogueAICharacter::GetGenericTeamId() const
 	{
 		return AIC->GetGenericTeamId();
 	}
-
+	
 	return FGenericTeamId::NoTeam;
 }
 
 void ARogueAICharacter::OnHealthChanged(FGameplayTag AttributeTag, float NewHealth, float OldHealth)
 {
-	if (!bIsDead && NewHealth <= KINDA_SMALL_NUMBER)
+	if (NewHealth <= KINDA_SMALL_NUMBER && !bIsDead)
 	{
-		bIsDead = true;
 		HandleKilled();
 	}
 }
 
 void ARogueAICharacter::HandleKilled()
 {
+	bIsDead = true;
+	
 	URogueGameInstance* GI = GetGameInstance<URogueGameInstance>();
 	GI->AliveMonsters.RemoveSingleSwap(this, EAllowShrinking::No);
-
+	
 	AAIController* AIC = GetController<AAIController>();
 	AIC->GetBrainComponent()->StopLogic("Killed");
-
-	// @todo: Pause Anim
-
+	
+	GetMesh()->bPauseAnims = true;
+	
 	GetMesh()->SetCollisionProfileName("Ragdoll");
 	GetMesh()->SetAllBodiesSimulatePhysics(true);
-
+	
 	GetCharacterMovement()->DisableMovement();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	SetLifeSpan(10.0f);
+	
+	// Drop Loot!
+	GetActionSystemComponent()->StartAction(SharedGameplayTags::Action_DropLoot);
+	
+	SetLifeSpan(10.f);
 }
 
 float ARogueAICharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
                                     class AController* EventInstigator, AActor* DamageCauser)
 {
 	float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-
+	
 	const ETeamAttitude::Type Attitude = GetTeamAttitudeTowards(*EventInstigator);
-
+	
 	if (IsValid(EventInstigator) && Attitude != ETeamAttitude::Friendly)
 	{
-		UAISense_Damage::ReportDamageEvent(this, this, EventInstigator->GetPawn(),
-			FMath::Abs(ActualDamage), EventInstigator->GetPawn()->GetActorLocation(),  GetActorLocation());
+		UAISense_Damage::ReportDamageEvent(this, this, EventInstigator->GetPawn(), FMath::Abs(ActualDamage), 
+			EventInstigator->GetPawn()->GetActorLocation(), GetActorLocation());
 	}
-
+	
 	ActionSystemComponent->ApplyAttributeChange(SharedGameplayTags::Attribute_Health, -ActualDamage, Base);
 
 	GetMesh()->SetOverlayMaterialMaxDrawDistance(0);

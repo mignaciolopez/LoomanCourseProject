@@ -20,14 +20,12 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	TObjectPtr<URogueActionSystemComponent> ActionSystemComponent;
-
-	bool bIsDead = false;
-
+	
 	UFUNCTION()
 	void OnGameplayTagUpdated(FGameplayTag UpdatedTag, int32 NewCount);
-
+	
 	void OnHealthChanged(FGameplayTag AttributeTag, float NewHealth, float OldHealth);
-
+	
 	void HandleKilled();
 	
 	UPROPERTY(EditDefaultsOnly, Category=Animation)
@@ -37,9 +35,9 @@ protected:
 	TObjectPtr<URogueMonsterData> MonsterData;
 
 public:
-
+	
 	virtual FGenericTeamId GetGenericTeamId() const;
-
+	
 	URogueActionSystemComponent* GetActionSystemComponent() const
 	{
 		return ActionSystemComponent;
@@ -67,6 +65,8 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 protected:
+	
+	bool bIsDead = false;
 
 	FTimerHandle OverlayTimerHandle;
 };

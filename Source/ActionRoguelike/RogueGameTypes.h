@@ -8,7 +8,7 @@
 #define COLLISION_INTERACTION ECC_GameTraceChannel1
 #define COLLISION_PROJECTILE  ECC_GameTraceChannel2
 
-//Perception System Teams
+// Perception System Teams
 #define TEAM_ID_BOTS 1
 #define TEAM_ID_PLAYERS 2
 

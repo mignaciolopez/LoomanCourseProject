@@ -17,7 +17,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	float AttackDamage = 51.f;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	float ImpulseIntensity = 200000.f;
 	

@@ -13,6 +13,7 @@
 #include "GameFramework/SpringArmComponent.h"
 
 
+
 // Sets default values
 ARoguePlayerCharacter::ARoguePlayerCharacter()
 {
@@ -145,5 +146,5 @@ float ARoguePlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 
 FGenericTeamId ARoguePlayerCharacter::GetGenericTeamId() const
 {
-	return TeamId;
+	return FGenericTeamId(TEAM_ID_PLAYERS);	
 }
