@@ -4,13 +4,13 @@
 #include "RoguePlayerCharacter.h"
 #include "GameplayTagContainer.h"
 #include "EnhancedInputComponent.h"
+#include "RogueGameTypes.h"
 #include "SharedGameplayTags.h"
 #include "ActionSystem/RogueActionSystemComponent.h"
 #include "ActionSystem/RogueAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-
 
 
 // Sets default values
@@ -141,4 +141,9 @@ float ARoguePlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 	}, 1.0f, false);
 
 	return ActualDamage;
+}
+
+FGenericTeamId ARoguePlayerCharacter::GetGenericTeamId() const
+{
+	return TeamId;
 }

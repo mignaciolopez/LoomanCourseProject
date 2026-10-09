@@ -17,6 +17,8 @@ public:
 
 	ARogueAIController();
 
+	virtual void PreRegisterAllComponents() override;
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category="Components")

@@ -84,12 +84,24 @@ void ARogueAICharacter::OnGameplayTagUpdated(FGameplayTag UpdatedTag, int32 NewC
 	}
 }
 
+FGenericTeamId ARogueAICharacter::GetGenericTeamId() const
+{
+	if (AAIController* AIC = GetController<AAIController>())
+	{
+		return AIC->GetGenericTeamId();
+	}
+
+	return FGenericTeamId::NoTeam;
+}
+
 float ARogueAICharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
                                     class AController* EventInstigator, AActor* DamageCauser)
 {
 	float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-	if (IsValid(EventInstigator))
+	const ETeamAttitude::Type Attitude = GetTeamAttitudeTowards(*EventInstigator);
+
+	if (IsValid(EventInstigator) && Attitude != ETeamAttitude::Friendly)
 	{
 		UAISense_Damage::ReportDamageEvent(this, this, EventInstigator->GetPawn(),
 			FMath::Abs(ActualDamage), EventInstigator->GetPawn()->GetActorLocation(),  GetActorLocation());
