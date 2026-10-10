@@ -66,11 +66,11 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 protected:
-
+	
 	void CreateHealthBar();
-
+	
 	UPROPERTY()
-	TObjectPtr<URogueWorldUserWidget> HealthWidgetInstance;
+	TObjectPtr<URogueWorldUserWidget> HealthBarInst;
 	
 	bool bIsDead = false;
 

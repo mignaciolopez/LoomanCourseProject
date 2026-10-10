@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -6,7 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "RogueHUD.generated.h"
 
-class URogueMainHudWidget;
+class URogueMainHUDWidget;
 /**
  * 
  */
@@ -14,21 +14,22 @@ UCLASS()
 class ACTIONROGUELIKE_API ARogueHUD : public AHUD
 {
 	GENERATED_BODY()
-
+	
 public:
 
-	URogueMainHudWidget* GetMainHUD() const
+	URogueMainHUDWidget* GetMainHUD() const
 	{
 		return MainWidgetInstance;
 	}
-
+	
 protected:
-
+	
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditDefaultsOnly, Category = UI)
-	TSubclassOf<URogueMainHudWidget> MainWidgetClass;
-
+	
+	// @todo: move to a PlayerDataAsset or similar shared location eventually
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<URogueMainHUDWidget> MainWidgetClass;
+	
 	UPROPERTY()
-	TObjectPtr<URogueMainHudWidget> MainWidgetInstance;
+	TObjectPtr<URogueMainHUDWidget> MainWidgetInstance;
 };

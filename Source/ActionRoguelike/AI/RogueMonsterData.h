@@ -26,7 +26,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (ClampMin=0))
 	int32 LootCoins = 100;
-
+	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URogueWorldUserWidget> HealthWidgetClass;
 	
