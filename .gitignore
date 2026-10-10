@@ -61,7 +61,7 @@ Plugins/*/Binaries/*
 !UnrealEditor-ActionRoguelike.dll
 
 # Builds
-Build/*
+Build/
 *.modules
 
 # File Open Order

@@ -67,11 +67,13 @@ public:
 	{
 		return ActionName;
 	}
-	
+
+#if WITH_EDITOR
 	virtual bool ImplementsGetWorld() const override
 	{
 		return true;
 	}
+#endif
 
 protected:
 
